@@ -1,0 +1,153 @@
+Callback | Promesas | Programación sincrónica y asincrónica
+
+Callback	-----------------------------------------------
+función como cualquier otra, con la diferencia que se pasa como
+parámetro (argumento) para poder ser utilizado por otra función
+
+es una función que se ejecuta dentro de los parámetros de otra función
+la ejecución de la función dependerá de los resultados que devuelva la
+otra función
+lo ideal es conocer los tiempos de resultados
+
+siempre se intenta hacer que las funciones sean lo más independientes
+entre sí, porque así se evitan fallos y además el callbackHELL
+para no tener una gran dependencia de tantos factores entre sí para
+poder llegar a un resultado
+
+EJEMPLOS
+	const boton = documen.getElementById("boton1");
+	boton.addEventListener("click", () => {});
+
+	const datos = [];
+
+	datos.forEach(() => {});
+
+	const calcularImpuestos = (calcularIVA(), calcularIIBB(), 	calcularImpuestosLocales()) =>{
+	}
+
+
+Promesas	-----------------------------------------------
+permite encapsular una operación, reaccionando a dos situaciones posibles
+dentro de una promesa. Qué hace si se cumple? Y si no se cumple?
+
+es una forma de envío de información, pudiendose estimar el tiempo
+pero no pudiendo nunca definirlo taxativamente
+
+el estado intermedio de las promesas es 'pendiente' y luego se completa
+o se rechaza
+
+
+const consultarEmpleados = (confirmacion) =>{
+    return new Promise()	<== Promise es el constructor de la clase
+}				promesa (por eso dice antes 'new')
+
+quedaría entonces de la siguiente manera, incluyendo una base de datos
+para poder pasar a VSC directamente
+
+	const empleados = [
+	  { nombreCompleto: "Pedro Perez", sueldos: undefined },
+	  { nombreCompleto: "María Laspina", sueldos: 5000 },
+	  { nombreCompleto: "Laura Perez", sueldos: 5000 },
+	];
+
+	const consultarEmpleados = (confirmacion) => {
+	  return new Promise((resolve, reject) => {
+	    if (confirmacion) {
+	      resolve(empleados);
+	    }
+	    reject("Acceso denegado");
+	  });
+	};
+
+	console.log(consultarEmpleados(false));
+
+otra forma de hacerlo, no dejándolo directamente en el último
+console.log(consultarEmpleados(false))
+
+consultarEmpleados(true)
+  .then((empl) => console.log(empl))
+  .catch((error) => console.log(`Error en consultar empleados ${error}`));
+
+
+
+Sincrinismo & Asincronismo	-------------------------------
+-Sincronismo
+
+tarea1
+tarea2
+tarea3
+
+-Asincronismo
+permite que tareas muy pesadas se ejecuten más tarde, así van en
+paralelo distintas tareas y si bien no controlamos cuando termina
+sí controlamos cuando comienza
+
+pueden existir inconvenientes cuando las tareas sean muy complejas
+
+1- fetch()
+es una función que utiliza promesas, no es una promesa en sí
+pide lo que sería la url y se le realiza la petición mediante promesas
+
+no sabemos cuanto tardará, pero cuando llegue nos interesa el contenido
+de esa promesa. Por tanto diremos que la promesa se transforme en un .txt
+o en un .json
+
+	fetch("https://criptoya.com/api/dolar")
+	  .then((promise) => promise.json())
+	  .then((dolar) => console.log(dolar));
+
+// con 'dolar' se hace referencia al valor que vino de la conversión
+generalmente es preferente que tenga un nombre significativo, pero 
+podría ir cualquier cosa
+
+puedo desestructurar para no estar llamando a todos y buscar aquello
+que en realidad quiero mediante destructuring
+
+	fetch("https://criptoya.com/api/dolar")
+  	  .then((promise) => promise.json())
+  	  .then((dolar) => {
+    	    const { solidario, blue, mep, ccl } = dolar;	<==
+    	    console.log(solidario, blue, mep, ccl)
+  	  });
+
+definiéndolo mediante una cosntante y llamándolo. Puede ser optimizado
+de la siguiente manera definiéndolo en la misma llamada
+
+	fetch("https://criptoya.com/api/dolar")
+  	  .then((promise) => promise.json())
+  	  .then(({ solidario, blue, mep, ccl }) => {		<==
+    	    console.log(solidario, blue, mep, ccl)
+  	  });
+
+También se puede definir una función asincrónica en la que se especifica
+que se estarán llamando a los siguientes valores
+
+const obtenerValoresDolar = async () => {
+    const promise = await fetch("https://criptoya.com/api/dolar")
+    const dolar = await promise.json()
+    console.log(dolar)
+}
+obtenerValoresDolar()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
